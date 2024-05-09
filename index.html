@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Binbin Generator</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poetsen+One&family=Freeman&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <section class="bingenerator">
+            <div class="container">
+                <div class="sectitle">Binbin Generator !</div>
+                <label for="num">Words to be created (max. 100):</label>
+                <input type="number" name="num" min="1" max="100" placeholder="Ex. 5">
+                <label for="sufix">Suffix quantity (max. 10):</label>
+                <input type="number" name="sufix" min="1" max="100" placeholder="Ex. 3">
+                <div class="df">
+                    <button class="dbtn words">Generate Words</button>
+                    <button class="dbtn text">Generate Text</button>
+                </div>
+                <div class="resultados">
+                    <div class="words"></div>
+                    <div class="text"></div>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>
+
+<style>
+    :root{
+        --poet: "Poetsen One", sans-serif;
+        --free: "Freeman", sans-serif;
+    }
+    html,
+    body {
+        border: none;
+        margin: 0;
+        padding: 0;
+    }
+    body{
+        font-family: var(--free);
+        font-size: 18px;
+        font-weight: 400;
+        background-color: #E0E0E0;
+    }
+    .bingenerator{
+        padding: 5rem 0;
+    }
+    .bingenerator .container{
+        max-width: calc(1180px + 140px);
+        margin: 0 auto;
+        padding: 0 70px;
+    }
+    .bingenerator .sectitle{
+        text-align: center;
+        font-family: var(--poet);
+        font-size: 60px;
+        font-weight: 500;
+        margin-bottom: 2rem;
+    }
+    .bingenerator label{
+        text-align: center;
+        display: block;
+        display: -webkit-block;
+        margin-bottom: .5rem;
+    }
+    .bingenerator input{
+        display: block;
+        display: -webkit-block;
+        width: 100%;
+        max-width: 600px;
+        font-family: var(--free);
+        font-size: 16px;
+        font-weight: 500;
+        border: none;
+        border-radius: 5px;
+        background: #e0e0e0;
+        box-shadow: inset 20px 20px 60px #bebebe,inset -20px -20px 60px #ffffff;
+        margin: 0 auto 2rem;
+        padding: 1rem;
+    }
+    .bingenerator input:focus-visible{
+        outline: none;
+        -moz-outline: none;
+    }
+    .bingenerator .df{
+        display: flex;
+        display: -webkit-flex;
+        flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+        align-items: center;
+        grid-gap: 1rem;
+        justify-content: space-between;
+        -webkit-justify-content: space-between;
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto 2rem;
+    }
+    .bingenerator .dbtn{
+        cursor: pointer;
+        display: block;
+        display: -webkit-block;
+        font-family: var(--free);
+        color: #fff;
+        font-size: 16px;
+        font-weight: 500;
+        border: none;
+        border-radius: 5px;
+        background: linear-gradient(to bottom right, #969696, #666666);
+        padding: 1rem;
+    }
+    .bingenerator .resultados{
+        display: flex;
+        display: -webkit-flex;
+        align-items: stretch;
+        width: 100%;
+        max-width: 600px;
+        margin: 2rem auto 0;
+    }
+    .bingenerator .resultados>*{
+        width: calc(50% - 20px);
+        padding: 0 20px;
+    }
+    .bingenerator .resultados .words{
+        display: flex;
+        display: -webkit-flex;
+        flex-direction: column;
+        -ms-flex-direction: column;
+        grid-gap: 1rem;
+    }
+    .bingenerator .resultados .words>*{
+        display: flex;
+        display: -webkit-flex;
+        align-items: center;
+        justify-content: space-between;
+        -webkit-justify-content: space-between;
+        grid-gap: .5rem;
+    }
+    .bingenerator .resultados .copy{
+        position: relative;
+        cursor: pointer;
+    }
+    .bingenerator .resultados .copy.alerting::after{
+        content: 'Copied to Clipboard!';
+        position: absolute;
+        inset: auto 0 0 200%;
+        width: fit-content;
+        height: fit-content;
+        font-family: var(--free);
+        color: #fff;
+        white-space: nowrap;
+        background-color: #000000;
+        padding: 5px 10px;
+    }
+    .bingenerator .resultados>.text{
+        position: relative;
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 1.5rem 1rem;
+    }
+    .bingenerator .resultados>.text .copy{
+        display: block;
+        display: -webkit-block;
+        width: fit-content;
+        margin: 0 0 1rem auto;
+    }
+    @media(max-width:992px){
+        .bingenerator .container{
+            padding: 0 20px;
+        }
+    }
+</style>
+
+<script>
+    function binbCreator(num=5,sufix=3){
+        const consonants = ['b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','y','z'];
+        const vowels = ['a','e','i','o','u'];
+        let binResult = [];
+        for(let cont=1;cont<=num;cont++){
+            let binWord='binb'+vowels[Math.floor(Math.random()*vowels.length)];
+            while(binWord.length<=parseInt(sufix)+3){
+                binWord+=(Math.random()<0.5 ? consonants[Math.floor(Math.random()*consonants.length)] : vowels[Math.floor(Math.random()*vowels.length)]);
+            }
+            binResult.push(binWord);
+        }
+        return binResult;
+    }
+
+    let num = document.querySelector('.bingenerator input[name="num"]');
+    let sufix = document.querySelector('.bingenerator input[name="sufix"]');
+    let results = document.querySelector('.bingenerator .resultados .words');
+    let text = document.querySelector('.bingenerator .resultados .text');
+
+    function displayResults(){
+        results.innerHTML = '';
+        for(let i of binbCreator((num.value<=100 ? num.value : 100),(sufix.value<=10 ? sufix.value : 10))){
+            let newDiv = document.createElement('div');
+            newDiv.insertAdjacentHTML('beforeend',`<div class="text">${i}</div><div class="copy"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 0V20H17V18H22V2H10V3H8V0H24ZM16 4V24H0V4H16ZM14 6H2V22H14V6Z" fill="black"/></svg></div>`);
+            newDiv.querySelector('.copy').addEventListener('click',(e)=>{
+                navigator.clipboard.writeText(newDiv.querySelector('.text').textContent);
+                newDiv.querySelector('.copy').classList.add('alerting');
+                setTimeout(() => {
+                    newDiv.querySelector('.copy').classList.remove('alerting');
+                }, 1000);
+            })
+            results.appendChild(newDiv);
+        }
+    }
+    function createText(){
+        text.innerHTML = '';
+        let newText='';
+        for(let i of binbCreator((num.value<=100 ? num.value : 100),(sufix.value<=10 ? sufix.value : 10))){
+            newText+= i+' ';
+        }
+        let newDiv = document.createElement('div');
+        newDiv.insertAdjacentHTML('beforeend',`<div class="copy"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 0V20H17V18H22V2H10V3H8V0H24ZM16 4V24H0V4H16ZM14 6H2V22H14V6Z" fill="black"/></svg></div><div class="text">${newText}</div>`);
+        newDiv.querySelector('.copy').addEventListener('click',(e)=>{
+            navigator.clipboard.writeText(newDiv.querySelector('.text').textContent);
+            newDiv.querySelector('.copy').classList.add('alerting');
+            setTimeout(() => {
+                newDiv.querySelector('.copy').classList.remove('alerting');
+            }, 1000);
+        });
+        text.appendChild(newDiv);
+    }
+    document.querySelector('.bingenerator .dbtn.words').addEventListener('click',(e)=>{
+        displayResults();
+    });
+    document.querySelector('.bingenerator .dbtn.text').addEventListener('click',(e)=>{
+        createText();
+    });
+</script>
